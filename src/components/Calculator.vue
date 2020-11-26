@@ -1,8 +1,8 @@
 <template>
   <div class="calculator">
-    <div class="display">0.5678</div>
-    <div class="btn">AC</div>
-    <div class="btn">+/-</div>
+    <div class="display">{{  current || '0'}}</div>
+    <div @click="clear" class="btn">AC</div>
+    <div @click="" class="btn">+/-</div>
     <div class="btn">%</div>
     <div class="btn operator">÷</div>
 
@@ -29,7 +29,16 @@
 
 <script>
 export default {
-  
+  data(){
+    return{
+      current:'',
+    }
+  },
+  methods:{
+    clear(){
+      this.current='';
+    }
+  }
   
 }
 </script>
@@ -51,6 +60,8 @@ export default {
   grid-column: 1 /5;
   background-color: #1C1C1C;
   color: #D4D4D2;
+  text-align: end;
+  padding-right: 10%;
 }
 .zero{
   grid-column: 1 / 3;
