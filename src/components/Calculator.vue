@@ -23,7 +23,7 @@
 
     <div @click="append('0')" class="btn zero">0</div>
     <div @click="dot" class="btn">,</div>
-    <div class="btn operator">=</div>
+    <div @click="equal" class="btn operator">=</div>
   </div>
 </template>
 
@@ -32,7 +32,9 @@ export default {
   data(){
     return{
       current:'',
+      previous: null,
       operator: null,
+      operatorClicked: false,
     }
   },
   methods:{
@@ -47,6 +49,10 @@ export default {
       this.current = `${parseFloat(this.current) / 100 }`
     },
     append(number){
+      if(this.operatorClicked){
+        this.current = '';
+        this.operatorClicked = false;
+      }
       this.current =  `${this.current} ${number}`;
     },
     dot(){
@@ -54,18 +60,35 @@ export default {
           this.append('.')
       }
     },
+    setPrevious(){
+      this.previous = this.current;
+      this.operatorClicked = true;
+    },
+
+    // OPERATOR
     divide(){
       this.operator = (a, b) => a / b;
+      this.setPrevious();
     },
     times(){
       this.operator = (a, b) => a * b;
+      this.setPrevious();
     },
     minus(){
       this.operator = (a, b) => a - b;
+      this.setPrevious();
     },
     add(){
       this.operator = (a, b) => a + b;
+      this.setPrevious();
     }, 
+    equal(){
+      this.current = `${this.operator(
+        parseFloat(this.current),
+        parseFloat(this.previous)
+        )}`;
+        this.previous = null;
+    }
   }
   
 }
